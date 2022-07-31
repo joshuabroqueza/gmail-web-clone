@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import React, { useEffect, useState } from 'react';
+import './App.css';
+import Header from './Header';
+import Sidebar from './Sidebar';
 // import { login, logout, selectUser } from "./features/userSlice";
 // import { useDispatch, useSelector } from "react-redux";
 // import { auth } from "./firebase";
@@ -12,27 +12,28 @@ import {
   Route,
   Link,
   Routes,
-} from "react-router-dom";
-import Mail from "./Mail";
-import EmailList from "./EmailList";
+} from 'react-router-dom';
+import Mail from './Mail';
+import EmailList from './EmailList';
+import SendMail from './SendMail';
 
 function App() {
   //WORKING CODE
   return (
     <Router>
-      <div className="app">
+      <div className='app'>
         <Header />
 
-        <div className="app__body">
+        <div className='app__body'>
           <Sidebar />
 
           <Routes>
-            <Route path="/mail" element={<Mail />} />
+            <Route path='/mail' element={<Mail />} />
 
-            <Route path="/" element={<EmailList />} />
+            <Route path='/' element={<EmailList />} />
           </Routes>
         </div>
-        <div>Continue here</div>
+        <SendMail />
       </div>
     </Router>
   );
