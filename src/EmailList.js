@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './EmailList.css';
 
 import Checkbox from '@mui/material/Checkbox';
@@ -20,7 +20,29 @@ import Section from './Section';
 import PeopleIcon from '@mui/icons-material/People';
 import EmailRow from './EmailRow';
 
+//calling datebase from firestore
+import { db } from './firebase';
+import firebase from 'firebase';
+
 function EmailList() {
+  const [emails, setEmails] = useState([]);
+  // console.log(db);
+
+  // const dbfile = collection(dbfire, 'emails');
+
+  useEffect(() => {
+    db.collection('emails')
+      .orderBy('timestamp', 'desc')
+      .onSnapshot((snapshot) =>
+        setEmails(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      );
+  }, []);
+
   return (
     <div className='emailList'>
       <div className='emailList__settings'>
@@ -58,13 +80,22 @@ function EmailList() {
       </div>
 
       <div className='emailList__list'>
-        <EmailRow
-          title='Freeletics'
-          subject='Happy International Friendship'
-          description='This is a test'
-          time='10pm'
-        />
+        {emails.map(({ id, data: { to, subject, message } }) => (
+          <EmailRow
+            id={id}
+            key={id}
+            title={to}
+            subject={subject}
+            description={message}
+          />
+        ))}
       </div>
+      <EmailRow
+        title='Freeletics'
+        subject='Happy International Friendship'
+        description='This is a test'
+        time='10pm'
+      />
     </div>
   );
 }
